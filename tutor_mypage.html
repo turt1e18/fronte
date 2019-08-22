@@ -34,10 +34,6 @@
   <!-- Page level custom scripts -->
 
   <!-- Custom styles for this template-->
-  <script>
-    var lect_id = 1;
-    var student_id =1;
-  </script>
 </head>
 
 <body id="page-top">
@@ -75,32 +71,7 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>강의 관리</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="buttons.html">강의계획서 수정</a>
-            <a class="collapse-item" href="cards.html">출석 기준량 수정</a>
-          </div>
-        </div>
-      </li>
 
-      <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>학생 관리</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="utilities-color.html">수강신청 학생 승인</a>
-            <a class="collapse-item" href="utilities-border.html">수강중인 학생 리스트</a>
-          </div>
-        </div>
-      </li>
 
       <!-- Divider -->
       <!-- Nav Item - Pages Collapse Menu -->
@@ -116,7 +87,7 @@
             <script>
             $(function(){
               $.ajax({
-                url:"http://192.168.88.139:5000/tutorMypageProcess",
+                url:"/tutorMypageProcess",
                 dataType:"json",
                 method:'POST',
                 success : function(json){
@@ -127,19 +98,11 @@
                       addA.href = `http://192.168.88.139:5000/tutorMypage?class_id=${json['class_info'][i]['ID']}`
 					            addA.innerText = `${json['class_info'][i]['NAME']}`
 				              $(".start").after(addA);
-                      html('<input type="hidden" name="class_id" value=""'+json["class_info"][i]['class_id']+'"></input>"');
+                      $(document).html('<input type="hidden" name="lect_id" value="' +`${json["studentList"][i]['ID']}`+'"></input>"');
 			                 }
-                       lect_id = `${json['class_info'][0]['ID']}`;
                     }
                   });
                 })
-            </script>
-            <script>
-              $(function(){
-                  $('.collapse-item').on('click','a',function(){
-                    lect_id = $('.class_id').val();
-                  })
-              });
             </script>
           </div>
         </div>
@@ -171,6 +134,13 @@
           <h1 class="h3 mb-0 text-gray-800" id="Class_Name" name="class_name"></h1>
           <script>
             $(function(){
+              var lect_id = $(document).ready(function(){
+                $(document().on("click","collapse-item",function(){
+                    return  $(document).after("collapse-item").val();
+                 })
+              )
+            }
+          )}
               $.ajax({
                 url:'/tutorInfoProcess',
                 method:'GET',
@@ -180,9 +150,10 @@
                 }
               })
               .done(function(json){
-                $('#Class_Name').after(`${json["class_info"][0]['class_name']}`)
+                $('#Class_Name').after(`${json["class_info"][0]['class_name']}`);
               })
             })
+          })
           </script>
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -296,6 +267,16 @@
                     })
                     // Area Chart Example
                     $(function(){
+                      var student_id = $(document).ready(function(){
+                          $(document).on('click','.student_list tbody tr',function(){
+                            return $('.student_list tbody tr input').val();
+                          })
+                      })
+                      var lect_id = $(document).ready(function(){
+                        $(document).on("click","collapse-item",function(){
+                            return  $(document).after("collapse-item").val();
+                          })
+                        })
                       $.ajax({
                         url:'/tutorLgraphProcess',
                         dataType:'json',
@@ -405,9 +386,6 @@
                      });
                    })
                     </script>
-                    <script>
-
-                    </script>
                 <!--    <script>
                       $('.student_list').on('click','tr',function(){
                         $.ajax({
@@ -429,6 +407,11 @@
                 </div>
                 <script>
                   $(function(){
+                    var lect_id = $(document).ready(function(){
+                    $(document).on("click","collapse-item",function(){
+                        return  $(document).after("collapse-item").val();
+                      })
+                    })
                         $.ajax({
                           dataType:'json',
                           method:'GET',
@@ -459,9 +442,8 @@
                               $('.image').append(addTDname);
                               $('.name').append(addTDenga);
                               $('.enga').append(addTDstatus);
-                              html('<input type="hidden" name="class_id" value=""'+json["studentList"][i]['class_id']+'"></input>"');
+                              $(document).html('<input type="hidden" name="class_id" value="'+`${json["studentList"][i]['class_id']}`+'"></input>"');
                             }
-                            student_id = `${json['studentList'][0]['tutee_id']}`;
                           }
                         });
                       })
@@ -515,6 +497,11 @@
          })
                    // Pie Chart Example
                    $(function(){
+                     var lect_id = $(document).ready(function(){
+                       $(document).on("click","collapse-item",function(){
+                           return  $(document).after("collapse-item").val();
+                         })
+                       })
                      $.ajax({
                        url:'http://192.168.88.140:5000/graph2',
                        method:'GET',
@@ -523,9 +510,9 @@
                        })
                        .done(function(json){
                          var datas = [];
-                         datas.push(`${json['my_graph'][4]['pass %']}`);
-			                   datas.push(`${json['my_graph'][5]['late %']}`);
-              		     	 datas.push(`${json['my_graph'][6]['fail %']}`);
+                         datas.push(`${json['my_graph'][4]['pass%']}`);
+			                   datas.push(`${json['my_graph'][5]['late%']}`);
+              		     	 datas.push(`${json['my_graph'][6]['fail%']}`);
                        var ctx = document.getElementById("myPieChart");
                        var myPieChart = new Chart(ctx, {
                          type: 'doughnut',
@@ -572,8 +559,13 @@
                 <div class="pie_table_">
                   <script>
                     $(function(){
+                      var lect_id = $(document).ready(function(){
+                        $(document).on("click","collapse-item",function(){
+                            return  $(document).after("collapse-item").val();
+                          })
+                        })
                       $.ajax({
-                        url:'/tutorOgraph',
+                        url:'/tutorOgraphProcess',
                         dataType:'json',
                         method:'GET',
                         data:{class_id:lect_id},
@@ -582,19 +574,19 @@
                           $('#pie > tbody:last').append(
                               '<tr><th>' + '출석' + '</th>' +
                                 '<td>' + `${json["my_graph"][0]["pass"]}` + '</td>' +
-                                '<td>' + `${json["my_graph"][4]["pass %"]}` + '</td></tr>');
+                                '<td>' + `${json["my_graph"][4]["pass%"]}` + '</td></tr>');
                           $('#pie > tbody:last').append(
                               '<tr><th>' + '지각' + '</th>' +
                                 '<td>' + `${json["my_graph"][1]["late"]}`+ '</td>' +
-                                '<td>' + `${json["my_graph"][5]["late %"]}` + '</td></tr>');
+                                '<td>' + `${json["my_graph"][5]["late%"]}` + '</td></tr>');
                           $('#pie > tbody:last').append(
                               '<tr><th>' + '결석' + '</th>' +
                                 '<td>' + `${json["my_graph"][2]["fail"]}` + '</td>' +
-                                '<td>' + `${json["my_graph"][6]["fail %"]}` + '</td></tr>');
+                                '<td>' + `${json["my_graph"][6]["fail%"]}` + '</td></tr>');
                           $('#pie > tbody:last').append(
                               '<tr><th>' + '총 인원' + '</th>' +
                                 '<td>' + `${json["my_graph"][3]["all"]}` + '</td>' +
-                                '<td>' + `${json["my_graph"][7]["all %"]}` + '</td></tr>');
+                                '<td>' + `${json["my_graph"][7]["all%"]}` + '</td></tr>');
                         })
                       })
                   </script>
@@ -630,9 +622,15 @@
                         {
                           title: '소개딩',
                           start: '2019-08-22',
-                          end: '2019-08-24'
+                          end: '2019-08-24',
+
+                        },
+                        {
+                          title: '소개딩',
+                          start: '2019-08-24',
+                          end: '2019-08-26'
                         }
-                      ]
+                      ],
                     });
                     calendar.render();
                   });
