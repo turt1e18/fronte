@@ -213,8 +213,8 @@
                   <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4" style="width:95%;margin-left:22px;">
                     <table class="student_list"id="dataTable" width="100%" cellspacing="0">
                       <thead>
-                      <th scope="row">번호</th>
                       <th scope="row">날짜</th>
+                      <th scope="row">시간</th>
                       <th scope="row">출석 현황</th>
                       <th scope="row">출석 결과</th>
                     </thead>
@@ -224,8 +224,8 @@
                         url: '/tuteeLectureAttendance',
                         dataSrc: 'data'
                           },
-                        columns: [{data:'class_time'},
-                                  {data:'date'},
+                          columns: [{data:'date'},
+                                  {data:'class_time'},
                                   {data:'engagement'},
                                   {data:'status'}
                                 ]
