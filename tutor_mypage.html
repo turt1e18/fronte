@@ -33,7 +33,11 @@
   <link href="../static/css/sb-admin-2.css" rel="stylesheet">
 
 </head>
-
+<app>
+  <script>
+    var localStorage = window.localStorage;
+  </script>
+</app>
 <body id="page-top">
 
   <!-- Page Wrapper -->
@@ -132,7 +136,7 @@
 	    <script>
               $(function(){
                   $('.collapse-item').on('click','a',function(){
-                    localStorage.setItem("lect_id",$('a').getElementById());
+                    localStorage.setItem("lect_id",$(".collapse-item").attr('id'));
                   })
               });
             </script>
@@ -173,7 +177,6 @@
                 url:'http://192.168.88.140:5000/tutorInfoProcess',
                 method:'GET',
                 dataType:'json',
-                async:false,
                 data:{
                   class_id : lect_id
                 }
@@ -626,7 +629,7 @@
 
                     // Pie Chart Example
                     $(function(){
-		                    var lect_id = localStroge.getItem("lect_id");
+		                    var lect_id = localStorage.getItem("lect_id");
                       $.ajax({
                         url:'http://192.168.88.140:5000/tutorOgraphProcess',
                         method:'GET',
