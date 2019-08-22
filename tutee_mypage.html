@@ -72,7 +72,7 @@
 				                       $(".start").after(addA);
                                html('<input type="hidden" name="class_id" value=""'+json["data"][i]['class_id']+'"></input>"');
 			                   }
-                         localStorage.lect_id = `${json["data"][0]['class_id']}`
+                         localStorage.setItem('lect_id',`${json["data"][0]['class_id']}`);
                        }
                      });
                    })
@@ -80,7 +80,7 @@
             <script>
               $(function(){
                   $('.collapse-item').on('click','a',function(){
-                    localStorage.lect_id = $('.class_id').val();
+                    localStorage.setItem('lect_id',$('.class_id').val());
                   })
               });
             </script>
@@ -111,7 +111,7 @@
           </div>
           <script>
             $(function(){
-              var lect_id = localStorage.lect_id;
+              var lect_id = localStorage.getItem('lect_id');
               $.ajax({
                 url:'http://localhost:5000/tuteeLectureList',
                 method:'POST',
@@ -216,11 +216,11 @@
                       <th scope="row">출석 결과</th>
                     </thead>
                     <script>
-
+                    var lect_id = localStorage.getItem('lect_id');
                     $('#dataTable').DataTable( {
                      ajax: {
                         url: '/tuteeLectureAttendance',
-                        dataSrc: 'data'
+                        dataSrc: 'data',
                         data : {class_id : lect_id}
                           },
                           columns: [{data:'date'},
