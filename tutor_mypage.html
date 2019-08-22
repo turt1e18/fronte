@@ -36,10 +36,7 @@
   <!-- Page level custom scripts -->
 
   <!-- Custom styles for this template-->
-  <script>
-    var lect_id = 1;
-    var student_id =1;
-  </script>
+
 </head>
 
 <body id="page-top">
@@ -105,7 +102,7 @@
 				              $(".start").after(addA);
                       html('<input type="hidden" name="class_id" value=""'+json["class_info"][i]['class_id']+'"></input>"');
 			                 }
-                       lect_id = `${json['class_info'][0]['class_id']}`;
+                       localStorage.lect_id = `${json['class_info'][0]['class_id']}`;
                     }
                   });
                 })
@@ -148,6 +145,7 @@
           <h1 class="h3 mb-0 text-gray-800" id="Class_Name" name="class_name"></h1>
           <script>
             $(function(){
+              var lect_id = localStorage.lect_id;
               $.ajax({
                 url:'http://localhost:5000/tutorInfo',
                 method:'POST',
@@ -275,6 +273,8 @@
                     })
                     // Area Chart Example
                     $(function(){
+                      var lect_id = localStorage.lect_id;
+                      var student_id = localStorage.student_id;
                       $.ajax({
                         url:'http://localhost:5000/tutorLgraph',
                         dataType:'json',
@@ -386,7 +386,8 @@
                     </script>
                   <script>
                       $('.student_list').on('click','tr',function(){
-
+                        var lect_id = localStorage.lect_id;
+                        var student_id = localStorage.student_id;
                         $.ajax({
                           url:'http://localhost:5000/tutorLgraph',
                           method:'GET',
@@ -508,6 +509,7 @@
                 </div>
                 <script>
                   $(function(){
+                    var lect_id = localStorage.lect_id;
                         $.ajax({
                           dataType:'json',
                           method:'GET',
@@ -540,7 +542,7 @@
                               $('.enga').append(addTDstatus);
                               html('<input type="hidden" name="class_id" value=""'+json["studentList"][i]['class_id']+'"></input>"');
                             }
-                            student_id = `${json['studentList'][0]['tutee_id']}`;
+                            localStorage.student_id = `${json['studentList'][0]['tutee_id']}`;
                           }
                         });
                       })
@@ -594,6 +596,7 @@
          })
                    // Pie Chart Example
                    $(function(){
+                     var lect_id = localStorage.lect_id;
                      $.ajax({
                        url:'http://192.168.88.140:5000/graph2',
                        method:'GET',
@@ -651,6 +654,7 @@
                 <div class="pie_table_">
                   <script>
                     $(function(){
+                      var lect_id = localStorage.lect_id;
                       $.ajax({
                         url:'/tutorOgraph',
                         dataType:'json',
