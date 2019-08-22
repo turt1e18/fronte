@@ -1,0 +1,42 @@
+<div class="pie_table_">
+  <script>
+    $(function(){
+      $.ajax({
+        url:'/tutorOgraph',
+        dataType:'json',
+        method:'GET',
+        data:{class_id:1},
+      })
+      .done(function(json){
+          $('#pie > tbody:last').append(
+              '<tr><th>' + '출석' + '</th>' +
+                '<td>' + `${json["my_graph"][0]["pass"]}` + '</td>' +
+                '<td>' + `${json["my_graph"][4]["pass"]}` + '</td></tr>');
+          $('#pie > tbody:last').append(
+              '<tr><th>' + '지각' + '</th>' +
+                '<td>' + `${json["my_graph"][1]["pass"]}`+ '</td>' +
+                '<td>' + `${json["my_graph"][5]["pass"]}` + '</td></tr>');
+          $('#pie > tbody:last').append(
+              '<tr><th>' + '결석' + '</th>' +
+                '<td>' + `${json["my_graph"][2]["pass"]}` + '</td>' +
+                '<td>' + `${json["my_graph"][6]["pass"]}` + '</td></tr>');
+          $('#pie > tbody:last').append(
+              '<tr><th>' + '총 인원' + '</th>' +
+                '<td>' + `${json["my_graph"][3]["pass"]}` + '</td>' +
+                '<td>' + `${json["my_graph"][7]["pass"]}` + '</td></tr>');
+        }
+      })
+    })
+  </script>
+  <table class="pie_table" id="pie">
+    <thead>
+      <tr>
+        <td></td>
+        <th>인원</th>
+        <th>퍼센트(%)</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
